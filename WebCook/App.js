@@ -6,9 +6,10 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import Home from "./src/Screens/Home/Home";
 import RecipeDetailScreen from "./src/Screens/RecpieDetailScreen/RecpieDetailScreen";
+import SearchRecipe from "./src/Screens/SearchScreen/SearchRecipe";
 import * as Notifications from "expo-notifications";
 import Settings from "./src/Screens/Settings";
-import Comment from "./src/Screens/Comments";
+import PostRecipe from "./src/Screens/PostRecipe";
 
 export default function App() {
   const [recipes, setRecipes] = useState([]);
@@ -58,6 +59,7 @@ export default function App() {
   };
 
   const Stack = createStackNavigator();
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -79,8 +81,9 @@ export default function App() {
             <RecipeDetailScreen {...props} isDarkTheme={isDarkTheme} />
           )}
         </Stack.Screen>
-        <Stack.Screen name="Settings" component={Settings} />
-        <Stack.Screen name="Comment" component={Comment} />
+
+        <Stack.Screen name="SearchRecipe" component={SearchRecipe} />
+        <Stack.Screen name="PostRecipe" component={PostRecipe} />
       </Stack.Navigator>
     </NavigationContainer>
   );

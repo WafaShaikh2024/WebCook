@@ -22,7 +22,6 @@ export default StyleSheet.create({
   },
   productName: {
     fontSize: 12,
-    color: COLOURS.black,
     fontWeight: "600",
     marginBottom: 2,
   },
@@ -63,9 +62,18 @@ export default StyleSheet.create({
     textTransform: "uppercase",
   },
   darkText: {
-    color: COLOURS.pink,
+    color: COLOURS.white,
   },
   lightText: {
-    color: COLOURS.yellow,
+    color: COLOURS.black,
+  },
+
+  bgDark: {
+    backgroundColor: COLOURS.white,
+    color: COLOURS.black,
+  },
+  bgLight: {
+    backgroundColor: "transparent",
+    color: COLOURS.black,
   },
 });

@@ -93,33 +93,33 @@ export default StyleSheet.create({
     marginTop: 10,
   },
   button: {
-    flexDirection: "row", // Align icon and text horizontally
-    justifyContent: "center", // Center the content
-    alignItems: "center", // Align items vertically
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     padding: 12,
     borderRadius: 8,
-    backgroundColor: "#4CAF50", // A green color for the share button
+    backgroundColor: "#4CAF50",
     flex: 1,
-    marginLeft: 10, // Adjust based on your layout
+    marginLeft: 10,
   },
   buttonText: {
     color: "black",
     fontSize: 18,
     fontWeight: "bold",
-    marginLeft: 10, // Space between the icon and the text
+    marginLeft: 10,
   },
   watchButton: {
-    marginRight: 10, // Adds spacing between the buttons
+    marginRight: 10,
     backgroundColor: "#f73333",
   },
   shareButton: {
-    marginLeft: 10, // Adds spacing between the buttons
+    marginLeft: 10,
     backgroundColor: "#a3eb83",
   },
   darkText: {
-    color: COLOURS.yellow,
+    color: COLOURS.white,
   },
   lightText: {
-    color: COLOURS.maroon,
+    color: COLOURS.black,
   },
 });

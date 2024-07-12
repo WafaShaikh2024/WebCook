@@ -9,16 +9,15 @@ const Header = () => {
 
   return (
     <View style={styles.headerContainer}>
+      <View style={styles.iconContainer}>
+        <TouchableOpacity onPress={() => navigation.navigate("SearchRecipe")}>
+          <Icon name="search" size={30} color="#660000" />
+        </TouchableOpacity>
+      </View>
       <Text style={styles.webcook}>WebCook</Text>
       <View style={styles.iconContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-          <Icon name="Settings" size={30} color="#660000" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("Comment")}>
-          <Icon name="Comment" size={30} color="#660000" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-          <Icon name="menu" size={30} color="#660000" />
+        <TouchableOpacity onPress={() => navigation.navigate("PostRecipe")}>
+          <Icon name="message" size={30} color="#660000" />
         </TouchableOpacity>
       </View>
     </View>
@@ -32,7 +31,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 10,
     height: 60,
-    backgroundColor: "#ffd966",
+    backgroundColor: "#79AC78",
   },
   logo: {
     width: 40,
@@ -44,7 +43,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   iconContainer: {
-    flexDirection: "column",
+    flexDirection: "row",
     alignItems: "center",
   },
 });

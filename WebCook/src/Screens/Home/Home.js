@@ -1,21 +1,37 @@
-//Home Screen with Recipe's name and images
+// Home.js
 import React from "react";
 import {
   View,
   Text,
+  Image,
   StatusBar,
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-
+import { useNavigation } from "@react-navigation/native";
 import styles from "./style";
 import { Feather, Entypo, MaterialIcons } from "@expo/vector-icons";
-
 import RecipieCard from "../../Components/RecipieCard/RecipieCard";
+import Colors from "../../Constants/Colors";
+
+import bannerImageLight from "../../../assets/adaptive-icon-light.png";
+import bannerImage from "../../../assets/adaptive-icon.png";
 
 const Home = ({ navigation, prd, toggleTheme, isDarkTheme }) => {
-  const backgroundColor = isDarkTheme ? "black" : "pink";
+  const backgroundColor = isDarkTheme ? Colors.black : Colors.bgGreen;
   const textStyle = isDarkTheme ? styles.darkText : styles.lightText;
+  const Banner_Image = Image.resolveAssetSource(bannerImage).uri;
+
+  const Banner_Image_Light = Image.resolveAssetSource(bannerImageLight).uri;
+
+  const BannerImageChange = isDarkTheme ? Banner_Image_Light : Banner_Image;
+
+  const { navigate } = useNavigation();
+
+  const handlePostClick = () => {
+    navigate("PostRecipe");
+  };
+
   return (
     <View style={styles.container} backgroundColor={backgroundColor}>
       <StatusBar backgroundColor={backgroundColor} barStyle="#6a51ae" />
@@ -28,28 +44,66 @@ const Home = ({ navigation, prd, toggleTheme, isDarkTheme }) => {
             }}
           >
             <TouchableOpacity onPress={toggleTheme}>
-              <MaterialIcons name="mode-night" size={24} style={textStyle} />
+              <MaterialIcons
+                name={isDarkTheme ? "light-mode" : "mode-night"}
+                size={24}
+                style={textStyle}
+              />
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.shopInfoContainer}>
-          <Text style={[styles.shopName, textStyle]}>
-            Welcome to WebCook Recipes Application.
-          </Text>
-          <Text style={[styles.shopDescription, textStyle]}>
-            {" "}
-            Every recipe has it's own story and it's own way of presenting.
-          </Text>
 
-          <View style={styles.productCardContainer}>
-            {prd.map((data) => (
-              <RecipieCard
-                data={data}
-                key={data.idMeal}
-                navigation={navigation}
-                isDarkTheme={isDarkTheme}
-              />
-            ))}
+        <View style={styles.shopInfoContainer}>
+          <View
+            style={[
+              {
+                justifyContent: "center",
+                margin: "0 auto",
+                alignItems: "center",
+              },
+            ]}
+          >
+            <Image
+              source={{ uri: BannerImageChange }}
+              style={styles.shopImage}
+            />
+            <Text style={[styles.shopDescription, textStyle]}>
+              Every recipe has it's own story and it's own way of presenting.
+            </Text>
+          </View>
+
+          <TouchableOpacity
+            onPress={() => navigation.navigate("SearchRecipe")}
+          ></TouchableOpacity>
+
+          <View style={styles.productCategoryContainer}>
+            <View style={styles.productCategoryHeader}>
+              <View style={styles.productCategoryTitle}>
+                <Text style={[{ fontSize: 20 }, textStyle]}>
+                  Featured recipies
+                </Text>
+                <Text
+                  style={[
+                    { paddingLeft: 8, fontSize: 16, fontWeight: "bold" },
+                    textStyle,
+                  ]}
+                >
+                  ({prd.length})
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.productCardContainer}>
+              {prd.map((data) => (
+                <RecipieCard
+                  data={data}
+                  key={data.idMeal}
+                  navigation={navigation}
+                  isDarkTheme={isDarkTheme}
+                  onPressPost={handlePostClick}
+                />
+              ))}
+            </View>
           </View>
         </View>
       </ScrollView>

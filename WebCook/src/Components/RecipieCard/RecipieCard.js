@@ -2,8 +2,10 @@ import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import COLOURS from "../../Constants/Colors";
 import styles from "./styles";
-const RecipieCard = ({ navigation, data, isDarkTheme }) => {
+
+const RecipieCard = ({ navigation, data, isDarkTheme, onPressPost }) => {
   const textStyle = isDarkTheme ? styles.darkText : styles.lightText;
+  const btnBgStyle = isDarkTheme ? styles.bgDark : styles.bgLight;
   return (
     <TouchableOpacity style={styles.container}>
       <View style={styles.imageContainer}>
@@ -18,11 +20,18 @@ const RecipieCard = ({ navigation, data, isDarkTheme }) => {
               productID: data.idMeal,
             })
           }
-          style={[styles.detailCartButton, { backgroundColor: COLOURS.maroon }]}
+          style={[styles.detailCartButton, btnBgStyle]}
         >
-          <Text style={styles.detailCartButtonText}>Read More</Text>
+          <Text style={[styles.detailCartButtonText, btnBgStyle]}>
+            Read More
+          </Text>
         </TouchableOpacity>
       </View>
+      <TouchableOpacity onPress={onPressPost}>
+        <View>
+          <Text>{data.recipeName}</Text>
+        </View>
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 };

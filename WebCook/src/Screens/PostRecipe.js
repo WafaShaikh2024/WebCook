@@ -5,74 +5,39 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
-  Image,
   ScrollView,
-  Platform,
+  Button,
 } from "react-native";
-import * as ImagePicker from "expo-image-picker";
-import { AntDesign } from "@expo/vector-icons";
 import axios from "axios";
 
-const PostRecipe = () => {
+const PostRecipe = ({ navigation }) => {
   const [recipeName, setRecipeName] = useState("");
   const [ingredients, setIngredients] = useState("");
   const [instructions, setInstructions] = useState("");
-  const [image, setImage] = useState(null);
+  const [message, setMessage] = useState("");
 
   const postRecipe = async () => {
     try {
-      const formData = new FormData();
-      formData.append("name", recipeName);
-      formData.append("ingredients", ingredients);
-      formData.append("instructions", instructions);
-      if (image) {
-        formData.append("image", {
-          uri: image,
-          type: "image/jpeg",
-          name: "recipe_image.jpg",
-        });
-      }
-
       const response = await axios.post(
-        "http://your-backend-url/recipes",
-        formData,
+        "http://localhost/Capstone/WebCook/WebCook/backend/recipes_db.php",
+        {
+          name: recipeName,
+          ingredients: ingredients,
+          instructions: instructions,
+        },
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
           },
         }
       );
-
-      console.log("Recipe posted successfully:", response.data);
-      // Optionally, reset form fields after successful post
+      setMessage(response.data.message || "Recipe posted successfully");
       setRecipeName("");
       setIngredients("");
       setInstructions("");
-      setImage(null);
     } catch (error) {
-      console.error("Error posting recipe:", error);
-    }
-  };
-
-  const pickImage = async () => {
-    if (Platform.OS !== "web") {
-      const { status } =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
-        return;
-      }
-    }
-
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.cancelled) {
-      setImage(result.uri);
+      setMessage("Failed to post recipe");
+      console.error(error);
     }
   };
 
@@ -98,14 +63,10 @@ const PostRecipe = () => {
         value={instructions}
         onChangeText={(text) => setInstructions(text)}
       />
-      <TouchableOpacity style={styles.uploadButton} onPress={pickImage}>
-        <AntDesign name="upload" size={24} color="black" />
-        <Text style={styles.uploadButtonText}>Add Recipe Image</Text>
-      </TouchableOpacity>
-      {image && <Image source={{ uri: image }} style={styles.imagePreview} />}
       <TouchableOpacity style={styles.postButton} onPress={postRecipe}>
         <Text style={styles.buttonText}>Post Recipe</Text>
       </TouchableOpacity>
+      {message ? <Text style={styles.message}>{message}</Text> : null}
     </ScrollView>
   );
 };
@@ -116,25 +77,17 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "#fff",
   },
+  message: {
+    marginTop: 20,
+    fontSize: 16,
+    color: "green",
+  },
   input: {
     height: 40,
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 8,
     padding: 10,
-    marginBottom: 20,
-  },
-  uploadButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  uploadButtonText: {
-    marginLeft: 10,
-  },
-  imagePreview: {
-    width: 200,
-    height: 200,
     marginBottom: 20,
   },
   postButton: {

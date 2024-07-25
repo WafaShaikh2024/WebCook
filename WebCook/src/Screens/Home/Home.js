@@ -1,5 +1,5 @@
 // Home.js
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -8,25 +8,38 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import styles from "./style";
 import { Feather, Entypo, MaterialIcons } from "@expo/vector-icons";
 import RecipieCard from "../../Components/RecipieCard/RecipieCard";
 import Colors from "../../Constants/Colors";
-
+import axios from "axios";
 import bannerImageLight from "../../../assets/adaptive-icon-light.png";
 import bannerImage from "../../../assets/adaptive-icon.png";
 
 const Home = ({ navigation, prd, toggleTheme, isDarkTheme }) => {
+  const [recipe, setRecipe] = useState([]);
   const backgroundColor = isDarkTheme ? Colors.black : Colors.bgGreen;
   const textStyle = isDarkTheme ? styles.darkText : styles.lightText;
   const Banner_Image = Image.resolveAssetSource(bannerImage).uri;
-
   const Banner_Image_Light = Image.resolveAssetSource(bannerImageLight).uri;
-
   const BannerImageChange = isDarkTheme ? Banner_Image_Light : Banner_Image;
 
   const { navigate } = useNavigation();
+  useEffect(() => {
+    fetchRecipes();
+  }, []);
+
+  const fetchRecipes = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost/Capstone/WebCook/WebCook/backend/recipes_db.php"
+      );
+      setRecipe(response.data);
+    } catch (error) {
+      console.error("Error fetching recipes:", error);
+    }
+  };
 
   const handlePostClick = () => {
     navigate("PostRecipe");

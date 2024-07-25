@@ -13,7 +13,6 @@ import {
 } from "react-native";
 import COLOURS from "../../Constants/Colors";
 import Entypo from "react-native-vector-icons/Entypo";
-
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import styles from "./styles";
 import axios from "axios";
@@ -54,14 +53,16 @@ const RecipeDetailScreen = ({ route, navigation, isDarkTheme }) => {
   };
 
   useEffect(() => {
-    const { randomMeal } = route.params;
+    // const { randomMeal } = route.params;
 
-    if (randomMeal) {
-      fetchRandomRecipe();
-    } else {
-      fetchRecipe();
-    }
+    // if (randomMeal) {
+    //   fetchRandomRecipe();
+    // } else {
+    //   fetchRecipe();
+    // }
+    fetchRecipe();
   }, []);
+
   const fetchRecipe = async () => {
     try {
       const { productID } = route.params;
@@ -104,9 +105,9 @@ const RecipeDetailScreen = ({ route, navigation, isDarkTheme }) => {
 
         <Image source={{ uri: recipe.strMealThumb }} style={styles.image} />
         <View style={styles.detailContainer}>
-          <Text style={[styles.title, textStyle]}>{recipe.strMeal}</Text>
+          <Text style={[styles.title, textStyle]}>{recipe.name}</Text>
 
-          <View style={styles.infoContainer}>
+          {/* <View style={styles.infoContainer}>
             <Text style={[styles.infoTitle, textStyle]}>Category:</Text>
             <Text style={[styles.infoContent, textStyle]}>
               {recipe.strCategory}
@@ -118,7 +119,7 @@ const RecipeDetailScreen = ({ route, navigation, isDarkTheme }) => {
             <Text style={[styles.infoContent, textStyle]}>
               {recipe.strArea}
             </Text>
-          </View>
+          </View> */}
 
           <Text style={[styles.subTitle, textStyle]}>Ingredients</Text>
           {Object.keys(recipe).map((key) => {
